@@ -14,13 +14,11 @@ variables:
 
 stages:
 - stage: Build
-  displayName: Build and Push Docker Image
   jobs:
-  - job: BuildJob
-    displayName: Build Container
+  - job: Build
     steps:
     - task: Docker@2
-      displayName: Build and Push Docker Image
+      displayName: Build and Push
       inputs:
         containerRegistry: '$(dockerRegistryServiceConnection)'
         repository: '$(imageRepository)'
@@ -33,7 +31,7 @@ stages:
     - task: HelmInstaller@1
       displayName: Install Helm
       inputs:
-        helmVersionToInstall: '3.11.0'
+        helmVersionToInstall: 'latest'
 
 - stage: DeployToDev
   displayName: Deploy to Dev
@@ -52,9 +50,9 @@ stages:
           - task: HelmInstaller@1
             displayName: Install Helm on Agent
             inputs:
-              helmVersionToInstall: '3.11.0'
+              helmVersionToInstall: 'latest'
 
-          - task: HelmDeploy@0
+          - task: HelmDeploy@1
             displayName: Helm Upgrade/Install (Dev)
             inputs:
               azureSubscription: '$(aksServiceConnection)'
@@ -66,6 +64,7 @@ stages:
               releaseName: 'my-app-dev'
               arguments: '--install -f $(System.DefaultWorkingDirectory)/$(helmChartPath)/values.dev.yaml'
               overrideValues: 'image.tag=$(Build.BuildId)'
+          
 
 - stage: DeployToQA
   displayName: Deploy to QA
@@ -84,9 +83,9 @@ stages:
           - task: HelmInstaller@1
             displayName: Install Helm on Agent
             inputs:
-              helmVersionToInstall: '3.11.0'
-
-          - task: HelmDeploy@0
+              helmVersionToInstall: 'latest'
+          
+          - task: HelmDeploy@1
             displayName: Helm Upgrade/Install (QA)
             inputs:
               azureSubscription: '$(aksServiceConnection)'

@@ -5,12 +5,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  imageRepository: 'gunjan37raj/my-app' 
-  dockerRegistryServiceConnection: 'Docker-ServConn' 
-  aksServiceConnection: 'ARM-ServConn' 
-  helmChartPath: 'helm/my-app' 
-  AKS-RG: Gunjan-All-Resource
-  AKS-CLUSTER: AKS-Cluster-Gunjan
+  - group: 25-Oct
 
 stages:
 - stage: Build
@@ -40,7 +35,7 @@ stages:
   jobs:
   - deployment: DeployJob
     displayName: Deploy with Helm to AKS
-    environment: 'Dev
+    environment: 'Dev'
     strategy:
       runOnce:
         deploy:
@@ -73,7 +68,7 @@ stages:
   jobs:
   - deployment: DeployQAJob
     displayName: Deploy with Helm to AKS
-    environment: 'QA
+    environment: 'QA'
     strategy:
       runOnce:
         deploy:

@@ -4,7 +4,7 @@
 replicaCount: 1
 
 image:
-  repository: gunjan37raj/my-app # Your default image repository
+  repository: singhdocker2110/my-app # Your default image repository
   pullPolicy: IfNotPresent
   tag: "1.0.0" # A default tag that will be overridden by the pipeline
 
